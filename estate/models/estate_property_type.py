@@ -1,5 +1,11 @@
 from odoo import fields, models, api
 
+from datetime import date
+from dateutil.relativedelta import relativedelta
+
+def three_months_from_today():
+    return date.today() + relativedelta(months=3)
+
 class EstateProperty(models.Model):
     _name = "estate.property"
     _description = "Estate Property"
