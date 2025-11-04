@@ -7,6 +7,11 @@
     'depends': ['base'],
     'license': 'AGPL-3',
     'author': 'JIYOD',
-    'data': ['security/ir.model.access.csv']
+    'data': [
+        'views/estate_property_views.xml',
+        'views/estate_menus.xml',
+        
+        'security/ir.model.access.csv'
+    ]
    
 }
