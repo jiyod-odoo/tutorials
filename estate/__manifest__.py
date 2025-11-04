@@ -7,6 +7,6 @@
     'depends': ['base'],
     'license': 'AGPL-3',
     'author': 'JIYOD',
-    # 'data': ['security/ir.model.access.csv']
+    'data': ['security/ir.model.access.csv']
    
 }
