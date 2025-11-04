@@ -5,6 +5,8 @@
 {
     'name': 'estate',
     'depends': ['base'],
-    'license': 'AGPL-3'
-    
+    'license': 'AGPL-3',
+    'author': 'JIYOD',
+    # 'data': ['security/ir.model.access.csv']
+   
 }
