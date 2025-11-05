@@ -9,16 +9,22 @@ class EstatePropertyOffer(models.Model):
     _name = "estate.property.offer"
     _description = "Estate Property Offer"
     
+    # Core
     price = fields.Float()
     status = fields.Selection([
         ('refused','Refused'),
         ('accepted', 'Accepted'),
     ], copy=False)
+    
+    # Relational
     partner_id = fields.Many2one("res.partner", required=True, string="Partner")
     property_id = fields.Many2one("estate.property", required=True, string="Property", store=True)
+    
+    # Compute
     validity = fields.Integer("Validity (days)", default=7)
     date_deadline = fields.Date("Deadline", compute="_compute_deadline", inverse="_validity_inverse", store=True)
     
+    # -------------------------- Compute Method -------------------------- #
     @api.depends("create_date", "validity")
     def _compute_deadline(self):
         for record in self:
@@ -30,7 +36,8 @@ class EstatePropertyOffer(models.Model):
             # _logger.info("valid inverse")
             create_date = record.create_date if record.create_date else fields.Date.today()
             record.validity = (record.date_deadline - create_date.date()).days
-            
+
+    # -------------------------- Action -------------------------- #
     def handle_accepted(self):
         if "accepted" in self.mapped("property_id.offer_ids.status"):
             raise UserError("Offer already accepted") 
