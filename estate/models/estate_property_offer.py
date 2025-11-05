@@ -1,4 +1,5 @@
 from odoo import fields, models, api
+from odoo.exceptions import UserError
 from dateutil.relativedelta import relativedelta
 import logging
 
@@ -14,7 +15,7 @@ class EstatePropertyOffer(models.Model):
         ('accepted', 'Accepted'),
     ], copy=False)
     partner_id = fields.Many2one("res.partner", required=True, string="Partner")
-    property_id = fields.Many2one("estate.property", required=True, string="Property")
+    property_id = fields.Many2one("estate.property", required=True, string="Property", store=True)
     validity = fields.Integer("Validity (days)", default=7)
     date_deadline = fields.Date("Deadline", compute="_compute_deadline", inverse="_validity_inverse", store=True)
     
@@ -29,3 +30,16 @@ class EstatePropertyOffer(models.Model):
             # _logger.info("valid inverse")
             create_date = record.create_date if record.create_date else fields.Date.today()
             record.validity = (record.date_deadline - create_date.date()).days
+            
+    def handle_accepted(self):
+        if "accepted" in self.mapped("property_id.offer_ids.status"):
+            raise UserError("Offer already accepted") 
+        self.status = "accepted"
+        self.property_id.selling_price = self.price
+        self.property_id.buyer_id = self.partner_id 
+        return True
+
+    def handle_refused(self):
+        self.status = "refused"
+        return True
+        

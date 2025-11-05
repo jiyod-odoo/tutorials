@@ -1,5 +1,5 @@
 from odoo import fields, models, api
-
+from odoo.exceptions import UserError, AccessError
 from dateutil.relativedelta import relativedelta
 
 class EstateProperty(models.Model):
@@ -16,6 +16,7 @@ class EstateProperty(models.Model):
     living_area = fields.Float('Living Area (sqm)')
     expected_price = fields.Float('Expected Price',required=True)
     selling_price = fields.Float('Selling Price',readonly=True, copy=False)
+    best_offer = fields.Float('Best Offer', compute="_compute_best_offer")
     available_from = fields.Date('Available From',copy=False, default=_next_three_month)
     description = fields.Char()
     facades = fields.Integer()
@@ -31,7 +32,7 @@ class EstateProperty(models.Model):
         ('offer accepted', 'Offer Accepted'),
         ('sold','Sold'),
         ('cancelled', 'Cancelled'),
-    ], default='new', required=True, copy=False)
+    ], default='new', required=True, copy=False, string='Status')
 
 
     # Relational 
@@ -46,6 +47,12 @@ class EstateProperty(models.Model):
         for record in self:
             record.total_area = record.living_area + record.garage_area
 
+    @api.depends("offer_ids.price")
+    def _compute_best_offer(self):
+        for record in self:
+            record.best_offer = max(record.offer_ids.mapped('price'))
+
+
     @api.onchange("garden")
     def _onchange_garden(self):
         if self.garden: 
@@ -54,3 +61,17 @@ class EstateProperty(models.Model):
         else:
             self.garage_area = 0
             self.garden_orientation = ""
+    
+    def handle_sold(self):
+        if self.state == "cancelled":
+            raise UserError("cancel property cannot be sold")
+        else:
+            self.state = "sold"
+        return True
+    
+    def handle_cancel(self):
+        if self.state == "sold":
+            raise UserError("sold property cannot be sold")
+        else:
+            self.state = "cancelled"
+        return True
