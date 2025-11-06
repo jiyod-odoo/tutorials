@@ -104,5 +104,12 @@ class EstateProperty(models.Model):
     @api.constrains('selling_price')
     def _check_selling_price_above(self):
         for record in self:
-            if not float_is_zero(record.expected_price,2) and float_compare(record.selling_price * 0.90, record.expected_price,precision_digits=2) <= 0:
+            if not float_is_zero(record.expected_price,2) and float_compare(record.selling_price, record.expected_price * 0.90 ,precision_digits=2) <= 0:
                 raise ValidationError("Selling Price must more than 90 percent Expected Price")
+            
+    # -------------------------- Override CRUD Method -------------------------- #        
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_new_or_cancelled(self):
+        for record in self:
+            if record.state not in ('new', 'cancelled'):
+                raise UserError("Can't delete properties that already have offer!")

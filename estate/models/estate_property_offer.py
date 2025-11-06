@@ -1,6 +1,7 @@
 from odoo import fields, models, api
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from dateutil.relativedelta import relativedelta
+from odoo.tools import float_compare
 import logging
 
 _logger = logging.getLogger(__name__) # for debugging purpose
@@ -52,4 +53,17 @@ class EstatePropertyOffer(models.Model):
     def handle_refused(self):
         self.status = "refused"
         return True
-        
+    
+    # -------------------------- Override CRUD Method -------------------------- #        
+    @api.model
+    def create(self, vals):
+        # vals is list 
+        for record in vals:
+            if record['property_id'] and record['price']:
+                property = self.env['estate.property'].browse(record['property_id'])
+                if property.offer_ids:
+                    max_offer = max(property.mapped("offer_ids.price"))
+                    if float_compare(record['price'], max_offer,2) <= 0:
+                        raise ValidationError("New offer must higher than an existing offer.")
+                    property.state = "offer received"
+        return super().create(vals)
