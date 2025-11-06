@@ -10,9 +10,10 @@
     'data': [
         # Security
         'security/ir.model.access.csv',
-        # Views
+        # View
         'views/estate_property_type_views.xml',
         'views/estate_property_tag_views.xml',
+        'views/estate_property_offer_action.xml',
         'views/estate_property_offer_views.xml',
         'views/estate_property_views.xml',
         # Menus

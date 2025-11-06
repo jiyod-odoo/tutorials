@@ -7,6 +7,7 @@ class EstateProperty(models.Model):
     # Meta-data
     _name = "estate.property"
     _description = "Estate Property"
+    _order = "id desc"
     # SQL Constraint
     _check_expected_price = models.Constraint(
         'CHECK (expected_price > 0)',
@@ -37,7 +38,7 @@ class EstateProperty(models.Model):
     facades = fields.Integer()
     garage = fields.Boolean()
     garden = fields.Boolean()
-    garage_area = fields.Float()
+    garden_area = fields.Float()
     garden_orientation = fields.Char()
     active = fields.Boolean('Active', default=True,)
     state = fields.Selection([
@@ -60,10 +61,10 @@ class EstateProperty(models.Model):
     total_area = fields.Float('Total Area (sqm)',compute="_compute_total_area")
     
     # -------------------------- Compute Method -------------------------- #
-    @api.depends("living_area","garage_area")
+    @api.depends("living_area","garden_area")
     def _compute_total_area(self):
         for record in self:
-            record.total_area = record.living_area + record.garage_area
+            record.total_area = record.living_area + record.garden_area
 
     @api.depends("offer_ids.price")
     def _compute_best_offer(self):
@@ -78,10 +79,10 @@ class EstateProperty(models.Model):
     @api.onchange("garden")
     def _onchange_garden(self):
         if self.garden: 
-            self.garage_area = 10
+            self.garden_area = 10
             self.garden_orientation = "North"
         else:
-            self.garage_area = 0
+            self.garden_area = 0
             self.garden_orientation = ""
     
     # -------------------------- Action -------------------------- #

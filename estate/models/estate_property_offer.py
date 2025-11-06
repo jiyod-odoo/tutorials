@@ -8,6 +8,7 @@ _logger = logging.getLogger(__name__) # for debugging purpose
 class EstatePropertyOffer(models.Model):
     _name = "estate.property.offer"
     _description = "Estate Property Offer"
+    _order = "price desc"
     
     # Core
     price = fields.Float()
@@ -19,6 +20,7 @@ class EstatePropertyOffer(models.Model):
     # Relational
     partner_id = fields.Many2one("res.partner", required=True, string="Partner")
     property_id = fields.Many2one("estate.property", required=True, string="Property", store=True)
+    property_type_id = fields.Many2one("estate.property.type", related='property_id.property_type_id', store=True)
     
     # Compute
     validity = fields.Integer("Validity (days)", default=7)
@@ -44,6 +46,7 @@ class EstatePropertyOffer(models.Model):
         self.status = "accepted"
         self.property_id.selling_price = self.price
         self.property_id.buyer_id = self.partner_id 
+        self.property_id.state = "offer accepted" 
         return True
 
     def handle_refused(self):

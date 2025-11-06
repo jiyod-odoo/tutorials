@@ -4,6 +4,7 @@ class EstatePropertyTag(models.Model):
     # Meta-data
     _name = "estate.property.tag"
     _description = "Estate Property Tag"
+    _order = "name"
     # SQL Constraint
     _unique_tag = models.Constraint(
         'unique (name)',
@@ -11,3 +12,4 @@ class EstatePropertyTag(models.Model):
     )
     # Core
     name = fields.Char(required=True)
+    color = fields.Integer()
