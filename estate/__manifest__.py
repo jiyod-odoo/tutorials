@@ -19,7 +19,7 @@
         'views/res_users_views.xml',
         # Menus
         'views/estate_menus.xml',
-        
+
     ]
-   
+
 }

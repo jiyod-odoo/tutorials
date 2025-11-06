@@ -1,5 +1,6 @@
 from odoo import fields, models
 
+
 class EstatePropertyTag(models.Model):
     # Meta-data
     _name = "estate.property.tag"
