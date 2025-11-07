@@ -26,7 +26,7 @@
                     <notebook>
                         <page name="Properties" string="Properties">
                             <field name="property_ids">
-                                <list string="estate_property_type_tree">
+                                <list string="estate_property_type_list">
                                     <field name="name" />
                                     <field name="expected_price" />
                                     <field name="state" />
@@ -39,7 +39,7 @@
         </field>
     </record>
 
-    <record id="estate_property_type_view_tree" model="ir.ui.view">
+    <record id="estate_property_type_view_list" model="ir.ui.view">
         <field name="name">estate.property.type.list</field>
         <field name="model">estate.property.type</field>
         <field name="arch" type="xml">

@@ -1,4 +1,4 @@
-from odoo import fields, models, api, _
+from odoo import fields, models, api
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_compare, float_is_zero
 from dateutil.relativedelta import relativedelta
@@ -41,7 +41,12 @@ class EstateProperty(models.Model):
     garage = fields.Boolean()
     garden = fields.Boolean()
     garden_area = fields.Float()
-    garden_orientation = fields.Char()
+    garden_orientation = fields.Selection([
+        ('north', 'North'),
+        ('south', 'South'),
+        ('east', 'East'),
+        ('west', 'West'),
+    ], default='north')
     active = fields.Boolean('Active', default=True,)
     state = fields.Selection([
         ('new', 'New'),
@@ -77,20 +82,33 @@ class EstateProperty(models.Model):
     def _compute_best_offer(self):
         for record in self:
             prices = record.offer_ids.mapped('price')
-            if (prices):
-                record.best_offer = max(prices)
-            else:
-                record.best_offer = 0
+            record.best_offer = max(prices) if prices else 0
 
-    # -------------------------- On Change -------------------------- #
+    # --------------------------  Constraint & On Change -------------------------- #
+    @api.constrains('selling_price')
+    def _check_selling_price_above(self):
+        for record in self:
+            if not float_is_zero(record.expected_price, 2) and float_compare(record.selling_price, record.expected_price * 0.90, precision_digits=2) <= 0:
+                raise ValidationError(
+                    "Selling Price must more than 90 percent Expected Price")
+
     @api.onchange("garden")
     def _onchange_garden(self):
         if self.garden:
             self.garden_area = 10
-            self.garden_orientation = "North"
+            self.garden_orientation = "north"
         else:
             self.garden_area = 0
             self.garden_orientation = ""
+
+    # -------------------------- Override CRUD Method -------------------------- #
+
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_new_or_cancelled(self):
+        for record in self:
+            if record.state not in ('new', 'cancelled'):
+                raise UserError(
+                    "Can't delete properties that already have offer!")
 
     # -------------------------- Action -------------------------- #
     def handle_sold(self):
@@ -106,19 +124,3 @@ class EstateProperty(models.Model):
         else:
             self.state = "cancelled"
         return True
-
-    # -------------------------- Python Constraint -------------------------- #
-    @api.constrains('selling_price')
-    def _check_selling_price_above(self):
-        for record in self:
-            if not float_is_zero(record.expected_price, 2) and float_compare(record.selling_price, record.expected_price * 0.90, precision_digits=2) <= 0:
-                raise ValidationError(
-                    "Selling Price must more than 90 percent Expected Price")
-
-    # -------------------------- Override CRUD Method -------------------------- #
-    @api.ondelete(at_uninstall=False)
-    def _unlink_except_new_or_cancelled(self):
-        for record in self:
-            if record.state not in ('new', 'cancelled'):
-                raise UserError(
-                    "Can't delete properties that already have offer!")

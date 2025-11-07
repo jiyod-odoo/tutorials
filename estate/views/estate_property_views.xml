@@ -20,7 +20,6 @@
                         <field name="name" />
                     </h1>
                     <h4>
-                        <!-- Get back for color -->
                         <field name="tag_ids" widget="many2many_tags"
                             options="{'color_field': 'color'}" />
                     </h4>
@@ -75,11 +74,11 @@
 
 
     <!-- Estate Tree -->
-    <record id="estate_property_view_tree" model="ir.ui.view">
+    <record id="estate_property_view_list" model="ir.ui.view">
         <field name="name">estate.property.list</field>
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
-            <list string="estate_property_tree"
+            <list string="estate_property_list"
                 decoration-success="state in ('offer received','offer accepted')"
                 decoration-muted="state == 'sold'"
                 decoration-bf="state == 'offer accepted'"
@@ -145,7 +144,7 @@
                 <field name="facades" />
                 <separator />
                 <filter string="Available" name="filter_state"
-                    domain="[('state', 'in', ('new', 'offer_received'))]" />
+                    domain="[('state', 'in', ('new', 'offer received'))]" />
                 <filter string="Postcode" name='group_by_postcode'
                     context="{'group_by':'postcode'}" />
             </search>
