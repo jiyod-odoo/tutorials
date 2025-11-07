@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Reference for ir.sequence schema -->
+<odoo>
+    <record id="sale.branch.sequence" model="ir.sequence">
+        <field name="name">sale.branch.sequence</field>
+        <field name="code">sale.branch</field>
+        <field name="prefix">B</field>
+        <field name="padding">5</field>
+    </record>
+</odoo>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="sale_branch_menu_action" name="Sale Branch"
+        parent="sale.menu_sale_config" sequence="90" action="sale_branch_action" />
+</odoo>
