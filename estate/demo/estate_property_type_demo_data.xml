@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="epty1" model="estate.property.offer">
+        <field name="name">Residential</field>
+    </record>
+    <record id="epty2" model="estate.property.offer">
+        <field name="name">Commercial</field>
+    </record>
+    <record id="epty3" model="estate.property.offer">
+        <field name="name">Industrial</field>
+    </record>
+    <record id="epty4" model="estate.property.offer">
+        <field name="name">Land</field>
+    </record>
+</odoo>

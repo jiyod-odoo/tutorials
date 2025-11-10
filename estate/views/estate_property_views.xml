@@ -12,6 +12,12 @@
                         invisible="state == 'sold'" class="bg-primary text-white" />
                     <button name="handle_cancel" type="object" string="Cancel"
                         invisible="state == 'sold'" />
+                    <!-- <button string="Print"
+                        name="%(estate_property_report_action)d"
+                        type="action"
+                        class="oe_stat_button"
+                        icon="fa-list"
+                        invisible="state == 'sold'" /> -->
                     <field name="state" readonly="True" widget="statusbar"
                         statusbar_visible="new, offer received, offer accepted, sold" />
                 </header>
@@ -83,7 +89,7 @@
                 decoration-muted="state == 'sold'"
                 decoration-bf="state == 'offer accepted'"
             >
-                <field name="name" width="200px"/>
+                <field name="name" width="200px" />
                 <field name="property_type_id" />
                 <field name="postcode" />
                 <field name="tag_ids" widget="many2many_tags" />
@@ -110,7 +116,8 @@
 
                         <!-- Use utility classes to space elements within one line -->
                         <div class="d-flex flex-column justify-content-between align-items-start">
-                            <span class="text-secondary-emphasis">Expected Price: <field name="expected_price" /></span>
+                            <span class="text-secondary-emphasis">Expected Price: <field
+                                    name="expected_price" /></span>
 
                             <t t-if="record.state.raw_value == 'offer received'">
                                 <span class="text-secondary-emphasis">Best Offer: <field
