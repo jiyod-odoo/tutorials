@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="awesome_dashboard.AwesomeDashboard">
+        <Layout className="'o_dashboard h-100'"
+                display="{controlPanel: {} }"
+            >
+        <t t-set-slot="layout-buttons">
+                <button class="btn btn-primary" t-on-click="openCustomers"> Customers </button>
+                <button class="btn btn-primary" t-on-click="openLeads"> Leads </button>
+        </t>
+        <div class="d-flex">
+            <t t-foreach="items" t-as="item" t-key="item.id">
+                <DashBoardItem size="1">
+                    <div>
+                        <t t-set="itemProp" t-value="item.props ? item.props(statistics_service) : {'data' : statistics_service }"/>
+                        <t t-component="getComponent" t-props="itemProp" />
+                    </div>
+                </DashBoardItem>
+            </t>
+        </div>
+        <div class="d-flex">
+
+                <DashBoardItem size="1">
+                    <div>
+                        <t t-set="itemProp" t-value="{'title' : 'shirt order by size'}"/>
+                        <t t-component="getPieComponent" t-props="itemProp" />
+                    </div>
+                </DashBoardItem>
+        </div>
+        </Layout>
+
+
+    </t>
+
+</templates>

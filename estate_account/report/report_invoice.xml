@@ -21,10 +21,14 @@
                     <strong>Total Amount</strong>
                 </td>
                 <td class="text-end">
-                    <strong t-out="tax_totals['total_amount_currency']"
-                    >31.05</strong>
+                    <strong t-out="o.company_id.currency_id.with_context(lang='zh_HK').amount_to_text(tax_totals['total_amount_currency'])" />
                     <span t-out="currency.name">currency</span>
                 </td>
+
+                                        <!-- <p>
+                            Total Amount: <span t-out="o.company_id.currency_id.with_context(lang='en_US')
+                            .amount_to_text(report_details['total_bysal'])"/>
+                        </p> -->
             </tr>
             <tr>
                 <td>

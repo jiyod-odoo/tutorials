@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="awesome_owl.todolist">
+        <div style="width: 18rem;">
+            <div>
+                <input t-ref="input_description" type="text" t-on-keyup="addToDo"/>
+            </div>
+            <br/>
+            <div style="display: inline-flex; flex-direction: column; padding: 10px;">
+                <t t-foreach="todos" t-as="i" t-key="i.id">
+                    <ToDoItem todo="i" toggleState="toggleState" removeItem="removeItem" />
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

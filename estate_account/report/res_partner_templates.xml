@@ -3,21 +3,22 @@
 
     <!-- Estate Property Template -->
     <template id="report_contact_template">
-        <div class="page">
-            <table class="table">
-                <thead>
-                    <tr class="fw-bold">
-                        <th>
-                            <strong>Name</strong>
-                        </th>
-                        <th>
-                            <strong>Email</strong>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <t t-foreach="docs" t-as="contacts">
-                        <t t-call="web.html_container">
+        <t t-call="web.html_container">
+
+            <div class="page">
+                <table class="table">
+                    <thead>
+                        <tr class="fw-bold">
+                            <th>
+                                <strong>Name</strong>
+                            </th>
+                            <th>
+                                <strong>Email</strong>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="contacts">
                             <tr t-foreach="contacts" t-as="contact">
                                 <td>
                                     <span t-field="contact.name" />
@@ -27,10 +28,10 @@
                                 </td>
                             </tr>
                         </t>
-                    </t>
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
+        </t>
 
     </template>
 </odoo>
