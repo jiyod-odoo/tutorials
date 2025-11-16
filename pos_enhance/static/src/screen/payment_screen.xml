@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="point_of_sale.PaymentScreen" t-inherit-mode="extension">
+        <xpath expr="//div[@id='payment-screen-numpads']" position="before">
+            <input type="text" t-ref="congrat_txt" t-on-change="onChangeCongrat" />
+        </xpath>
+    </t>
+</templates>
