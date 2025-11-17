@@ -5,13 +5,13 @@
             <div class="section-logistics mt-3 mb-4 pt-4 pb-4 text-start">
                 <h3 class="section-title">Logistics</h3>
                 <div class="d-flex flex-column gap-2"> 
-                    <div class="d-flex justify-content-between" t-on-click="() => console.log(this.props.productTemplate)">
+                    <div class="d-flex justify-content-between" >
                         <label class="fw-bold mr-2">Weight: </label>
-                        <span t-esc="'0.01'"/>
+                        <span t-esc="this.props.info.productInfo.weight ? this.props.info.productInfo.weight : '0.00'"/>
                     </div>
-                    <div class="d-flex justify-content-between" t-on-click="() => console.log(this.pos.config)">
+                    <div class="d-flex justify-content-between">
                         <label class="fw-bold mr-2">Volume: </label>
-                        <span t-esc="'0.00'"/>
+                        <span t-esc="this.props.info.productInfo.volume ? this.props.info.productInfo.volume : '0.00'"/>
                     </div>
                 </div>
             </div>
