@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The category is automatically created by Odoo using the __manifest__.py category field.
+         We just reference it here. The external ID should be exactly
+    'base.module_category_real_estate_brokerage'. -->
+
+    <record model="res.groups.privilege" id="res_groups_privilege_employees">
+        <field name="name">Real Estate</field>
+        <field name="sequence">9</field>
+        <field name="category_id" ref="base.module_category_real_estate_brokerage" />
+    </record>
+
+
+    <record id="estate_group_user" model="res.groups">
+        <field name="name">Agent</field>
+        <field name="privilege_id" ref="res_groups_privilege_employees" />
+    </record>
+
+    <record id="estate_group_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="privilege_id" ref="res_groups_privilege_employees" />
+        <!-- Implies the 'Agent' group using the implied_ids field -->
+        <field name="implied_ids" eval="[(4, ref('estate.estate_group_user'))]" />
+    </record>
+
+    <data noupdate="1">
+        <record id="estate_user_rule_id" model="ir.rule">
+            <field name="name">Estate User Rule</field>
+            <field name="model_id" ref="estate.model_estate_property" />
+            <field name="perm_read" eval="True" />
+            <field name="groups" eval="[(4, ref('estate.estate_group_user'))]" />
+            <field name="domain_force">[
+                '|', ('seller_id', '=', user.id),
+                ('seller_id', '=', False)
+                ]</field>
+        </record>
+    </data>
+</odoo>

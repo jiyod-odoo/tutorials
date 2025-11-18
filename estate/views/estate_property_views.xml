@@ -12,12 +12,6 @@
                         invisible="state == 'sold'" class="bg-primary text-white" />
                     <button name="handle_cancel" type="object" string="Cancel"
                         invisible="state == 'sold'" />
-                    <!-- <button string="Print"
-                        name="%(estate_property_report_action)d"
-                        type="action"
-                        class="oe_stat_button"
-                        icon="fa-list"
-                        invisible="state == 'sold'" /> -->
                     <field name="state" readonly="True" widget="statusbar"
                         statusbar_visible="new, offer received, offer accepted, sold" />
                 </header>

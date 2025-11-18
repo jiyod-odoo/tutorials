@@ -99,7 +99,7 @@ class EstateProperty(models.Model):
             self.garden_orientation = "north"
         else:
             self.garden_area = 0
-            self.garden_orientation = ""
+            self.garden_orientation = None
 
     # -------------------------- Override CRUD Method -------------------------- #
 
@@ -114,8 +114,10 @@ class EstateProperty(models.Model):
     def handle_sold(self):
         if self.state == "cancelled":
             raise UserError("cancel property cannot be sold")
-        else:
+        elif self.state == "offer accepted":
             self.state = "sold"
+        else:
+            raise UserError("only property with accepted offer can be sold")
         return True
 
     def handle_cancel(self):

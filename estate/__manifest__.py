@@ -8,8 +8,10 @@
     'license': 'AGPL-3',
     'author': 'JIYOD',
     # 'version': '19.0.1.0.0', # major.minor.major-module,sub-module,fix-module
+    "category": 'Real Estate/Brokerage',
     'data': [
         # Security
+        'security/estate.security.xml',
         'security/ir.model.access.csv',
         # View
         'views/estate_property_tag_views.xml',

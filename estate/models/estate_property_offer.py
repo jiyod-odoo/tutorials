@@ -56,6 +56,9 @@ class EstatePropertyOffer(models.Model):
             if record['property_id'] and record['price']:
                 Property = self.env['estate.property'].browse(
                     record['property_id'])
+                if Property.state == 'sold':
+                    raise ValidationError(
+                        "No new offer for already sold property.")
                 if Property.offer_ids:
                     max_offer = max(Property.mapped("offer_ids.price"))
                     if float_compare(record['price'], max_offer, 2) <= 0:
