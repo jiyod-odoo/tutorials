@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="res.groups.privilege" id="res_groups_show_cost_privilege">
+        <field name="name">Show Product Cost</field>
+        <field name="sequence">9</field>
+        <field name="category_id" ref="base.module_category_show_product_cost" />
+    </record>
+
+    <record id="show_product_cost_user" model="res.groups">
+        <field name="name">Show Product Cost User</field>
+        <field name="privilege_id" ref="res_groups_show_cost_privilege" />
+    </record>
+
+</odoo>
